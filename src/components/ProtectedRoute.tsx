@@ -19,7 +19,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
         unsubscribe();
       }
     };
-  }, [initializeAuth]);
+  }, []); // Empty dependency array - initializeAuth is stable
 
   // Show loading spinner while auth is initializing
   if (isLoading) {
