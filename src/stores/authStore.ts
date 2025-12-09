@@ -85,7 +85,7 @@ export const useAuthStore = create<AuthStore>((set: SetState<AuthStore>) => ({
     }
   },
 
-  initializeAuth: () => {
+  initializeAuth: (): (() => void) => {
     set({ isLoading: true });
     const unsubscribe = AuthService.onAuthStateChange((user) => {
       set({
