@@ -1,53 +1,365 @@
 # Tournament Table Web Application
 
-A complete esports tournament management application built with **React**, **TypeScript**, **Tailwind CSS**, **Zustand**, and **Firebase**.
+A complete production-ready esports tournament management application with user authentication, auto-backup, and real-time standings calculation.
 
 ## ✨ Features
 
+- **🔐 User Authentication**: Register, login, and manage your tournaments securely
 - **🏆 Tournament Management**: Create and manage multiple tournaments
-- **👥 Team Management**: Add teams with player rosters and optional logos
+- **👥 Team Management**: Add teams with player rosters
 - **📊 Match Scoring**: Record scores and auto-calculate standings
-- **🎯 Auto-Calculations**: 
-  - Win/Loss tracking
-  - Points calculation (3 for win, 1 for draw)
-  - Automatic standings ranking
+- **💾 Auto-Backup**: Automatic backups on every operation, keep last 10 versions
+- **🎯 Auto-Calculations**: Win/Loss tracking, Points calculation, Automatic standings ranking
 - **📱 Responsive Design**: Works perfectly on desktop, tablet, and mobile
 - **🌙 Dark Mode UI**: Professional esports-style dark theme
-- **🔗 Shareable Links**: Generate public tournament links
 - **💾 Auto-Save**: All data instantly saved to Firebase Firestore
 - **📥 Export/Import**: Backup tournaments as JSON
 
-## 🚀 Quick Start
+## 🚀 Quick Start - Local Development
 
 ### Prerequisites
 - Node.js 16+
-- npm or yarn
-- Firebase account (free)
+- npm
+- Firebase account (free at https://firebase.google.com)
 
 ### Installation
 
 ```bash
-# Clone or navigate to project
+# 1. Clone repository (or navigate to project folder)
 cd "path/to/tournament-table-app"
 
-# Install dependencies
+# 2. Install dependencies
 npm install
 
-# Copy environment template
-copy .env.local.example .env.local
+# 3. Create .env.local file with Firebase credentials
+# Add these lines to .env.local:
+VITE_FIREBASE_API_KEY=your_api_key
+VITE_FIREBASE_AUTH_DOMAIN=your_auth_domain
+VITE_FIREBASE_PROJECT_ID=your_project_id
+VITE_FIREBASE_STORAGE_BUCKET=your_storage_bucket
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+VITE_FIREBASE_APP_ID=your_app_id
+VITE_FIREBASE_MEASUREMENT_ID=your_measurement_id
 
-# Add your Firebase credentials to .env.local
-# (See DEPLOYMENT_GUIDE.md for detailed instructions)
-
-# Start development server
+# 4. Start development server
 npm run dev
 ```
 
-Visit `http://localhost:5173` and start creating tournaments!
+Visit `http://localhost:5173` in your browser. You'll be redirected to login page.
+
+## 📝 Step-by-Step Usage
+
+### 1. Create Your Account
+
+1. Go to `http://localhost:5173/login`
+2. Click "Create Account" button
+3. Fill in the registration form:
+   - **Full Name**: Your name
+   - **Email**: Your email address
+   - **Password**: 6+ character password
+   - **Confirm Password**: Repeat password
+4. Click "Register"
+5. ✅ You're automatically logged in and see the Dashboard
+
+### 2. Create a Tournament
+
+1. Click "Create New Tournament" button on Dashboard
+2. Fill tournament details:
+   - **Tournament Name** (required): e.g., "Regional Finals 2025"
+   - **Description** (optional): Tournament details
+   - **Total Rounds** (default 5): How many rounds to play
+3. Click "Create Tournament"
+4. ✅ Your tournament is created and auto-backed up
+
+### 3. Add Teams
+
+1. In Tournament page, scroll to "Add Team" section
+2. Enter team information:
+   - **Team Name**: e.g., "Phoenix Legends"
+   - **Player Names**: Comma-separated, e.g., "John, Mike, Sarah"
+3. Click "Add Team"
+4. ✅ Team appears in Standings table, auto-backup created
+
+### 4. Schedule Matches
+
+1. Scroll to "Matches" section
+2. Click "Schedule New Match"
+3. Select:
+   - **Team 1**: First competing team
+   - **Team 2**: Second competing team
+   - **Round**: Round number (1-5 by default)
+4. Click "Add Match"
+5. ✅ Match appears in Matches list, auto-backup created
+
+### 5. Record Match Scores
+
+1. Find the match in Matches list
+2. Click the score editing button (pencil icon)
+3. Enter scores:
+   - **Team 1 Score**: Points for team 1
+   - **Team 2 Score**: Points for team 2
+4. Click "Save Score"
+5. ✅ Standings automatically update, auto-backup created
+
+### 6. View Standings
+
+Standings update automatically showing:
+- Team position/rank
+- Wins count
+- Losses count
+- Total points
+
+### 7. Manage Tournament
+
+- **Edit Tournament**: Change name/description/rounds
+- **Delete Tournament**: Permanently remove (backed up first)
+- **Export**: Download tournament as JSON file
+
+### 8. Logout
+
+Click "Logout" button in header (top right) to sign out.
+
+## 🌐 Deploy to Vercel (FREE)
+
+### Prerequisites
+- GitHub account (free)
+- Vercel account (free)
+- Your code pushed to GitHub
+
+### Step 1: Push Code to GitHub
+
+```bash
+# If git not initialized
+git init
+
+# Configure git (one time)
+git config user.email "your-email@example.com"
+git config user.name "Your Name"
+
+# Add and commit all files
+git add .
+git commit -m "Initial commit: Tournament app with auth and auto-backup"
+
+# Create new repository on GitHub.com
+# Then push your code:
+git remote add origin https://github.com/YOUR-USERNAME/tournament-table-app.git
+git branch -M main
+git push -u origin main
+```
+
+### Step 2: Deploy on Vercel
+
+1. Go to [vercel.com](https://vercel.com)
+2. Click "Sign Up" or "Sign In"
+3. Click "New Project"
+4. Select "Import Git Repository"
+5. Paste your GitHub repo URL: `https://github.com/YOUR-USERNAME/tournament-table-app.git`
+6. Click "Import"
+
+### Step 3: Configure Environment Variables
+
+1. In Vercel project settings, go to "Environment Variables"
+2. Add each Firebase variable:
+   - Name: `VITE_FIREBASE_API_KEY`
+   - Value: `your_value_from_firebase`
+3. Repeat for all variables:
+   - VITE_FIREBASE_AUTH_DOMAIN
+   - VITE_FIREBASE_PROJECT_ID
+   - VITE_FIREBASE_STORAGE_BUCKET
+   - VITE_FIREBASE_MESSAGING_SENDER_ID
+   - VITE_FIREBASE_APP_ID
+   - VITE_FIREBASE_MEASUREMENT_ID
+
+4. Click "Save"
+
+### Step 4: Build Settings
+
+Vercel auto-detects Vite settings. Verify:
+- **Framework**: Vite
+- **Build Command**: `npm run build`
+- **Output Directory**: `dist`
+- **Install Command**: `npm install`
+
+### Step 5: Deploy
+
+1. Click "Deploy" button
+2. Wait for build to complete (usually 2-3 minutes)
+3. ✅ Your app is live at `https://tournament-table-app-YOUR-USERNAME.vercel.app`
+
+### Step 6: Custom Domain (Optional)
+
+To use your own domain:
+1. In Vercel Settings → Domains
+2. Enter your custom domain
+3. Follow DNS instructions from your domain provider
+
+## 🔒 Security & Privacy
+
+### Your Data
+- All data stored securely in Firebase
+- Only you can access your tournaments
+- Auto-backups kept for data safety
+
+### Credentials
+- Never share your Firebase credentials
+- `.env.local` is git-ignored (never uploaded)
+- Vercel environment variables are encrypted
+
+### Password Security
+- Passwords hashed by Firebase
+- Use strong, unique passwords
+- Password reset available via email
 
 ## 📁 Project Structure
 
 ```
+src/
+├── components/              # Reusable UI components
+│   ├── Button.tsx
+│   ├── FormElements.tsx
+│   ├── Header.tsx
+│   ├── MatchesList.tsx
+│   ├── ProtectedRoute.tsx  # Auth protection
+│   ├── StandingsTable.tsx
+│   └── TeamCard.tsx
+├── pages/                   # Full page components
+│   ├── HomePage.tsx        # Dashboard
+│   ├── LoginPage.tsx       # Login
+│   ├── RegisterPage.tsx    # Registration
+│   └── TournamentPage.tsx  # Tournament management
+├── stores/                  # Zustand state management
+│   ├── authStore.ts        # Authentication state
+│   └── tournamentStore.ts  # Tournament data state
+├── utils/                   # Utility functions
+│   ├── authService.ts      # Firebase auth
+│   ├── autoBackupService.ts # Backup management
+│   ├── firebase.ts         # Firebase config
+│   ├── helpers.ts          # Helper functions
+│   └── tournamentService.ts # Database operations
+├── types/                   # TypeScript interfaces
+│   └── index.ts
+├── App.tsx                 # Main app component
+├── main.tsx                # Entry point
+└── index.css               # Global styles
+```
+
+## 🛠️ Build Commands
+
+```bash
+# Development server (auto-reload)
+npm run dev
+
+# Production build
+npm run build
+
+# Preview production build locally
+npm run preview
+
+# Check for errors (if configured)
+npm run lint
+```
+
+## 🔧 Environment Variables
+
+Get these from Firebase Console:
+1. Go to https://console.firebase.google.com
+2. Select your project
+3. Click "Project Settings" (gear icon)
+4. Scroll to "Your apps" section
+5. Copy values from web app config
+
+| Variable | Description |
+|----------|-------------|
+| VITE_FIREBASE_API_KEY | API key for authentication |
+| VITE_FIREBASE_AUTH_DOMAIN | Auth domain (*.firebaseapp.com) |
+| VITE_FIREBASE_PROJECT_ID | Firebase project ID |
+| VITE_FIREBASE_STORAGE_BUCKET | Cloud storage bucket |
+| VITE_FIREBASE_MESSAGING_SENDER_ID | FCM sender ID |
+| VITE_FIREBASE_APP_ID | Firebase app ID |
+| VITE_FIREBASE_MEASUREMENT_ID | Analytics ID (optional) |
+
+## ❓ Troubleshooting
+
+### Application won't load / White screen
+- Check browser console (F12 → Console tab)
+- Verify `.env.local` has all Firebase credentials
+- Restart dev server: `npm run dev`
+
+### Firebase initialization error
+- Verify project ID matches Firebase Console
+- Check all credentials are correct and not truncated
+- Firestore and Authentication must be enabled in Firebase
+
+### Can't login/register
+- Verify email format is correct
+- Password must be 6+ characters
+- Check Firebase Authentication is enabled
+- Try creating account with test email
+
+### Changes not saving to database
+- Check internet connection
+- Verify Firebase Firestore is enabled
+- Check Firebase security rules allow writes
+- Look at browser console for error messages
+
+### Slow performance
+- Check network tab (F12) for slow requests
+- Firestore may need optimization for large tournaments
+- Consider archiving old tournaments
+
+## 📚 Learn More
+
+- [Firebase Documentation](https://firebase.google.com/docs)
+- [Vercel Deployment Guide](https://vercel.com/docs)
+- [React Documentation](https://react.dev)
+- [Tailwind CSS](https://tailwindcss.com)
+- [Zustand Store](https://github.com/pmndrs/zustand)
+
+## 📊 Database
+
+### Firestore Collections
+
+**tournaments**
+```
+{
+  id: string,
+  userId: string (owner),
+  name: string,
+  description: string,
+  totalRounds: number,
+  teams: Team[],
+  matches: Match[],
+  createdAt: timestamp,
+  updatedAt: timestamp
+}
+```
+
+**backups**
+```
+{
+  id: string,
+  userId: string,
+  tournamentId: string,
+  backupData: Tournament,
+  createdAt: timestamp,
+  backupType: "auto" | "manual"
+}
+```
+
+## 📄 Tech Stack
+
+- **React** 18 - UI framework
+- **TypeScript** - Type safety
+- **Vite** - Build tool
+- **Tailwind CSS** - Styling
+- **Zustand** - State management
+- **Firebase** - Backend (Auth, Firestore, Storage)
+- **React Router** - Navigation
+- **Lucide Icons** - Icons
+
+## 📝 License
+
+This project is open source and available under the MIT License.
 tournament-table-app/
 ├── src/
 │   ├── components/          # Reusable UI components
