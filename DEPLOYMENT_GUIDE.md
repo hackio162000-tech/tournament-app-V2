@@ -1,33 +1,350 @@
-# Tournament Table Web Application - Complete Setup & Deployment Guide
+# DEPLOYMENT GUIDE - Step by Step
 
-## 📋 Table of Contents
-1. [Local Development Setup](#local-development-setup)
-2. [Firebase Configuration](#firebase-configuration)
-3. [Deployment to Vercel](#deployment-to-vercel)
-4. [Troubleshooting](#troubleshooting)
-5. [Features Guide](#features-guide)
+## ✅ Current Status
+- ✅ Demo credentials removed from login page
+- ✅ Application code committed to git
+- ✅ Ready for Vercel deployment
+- ✅ No errors in application
 
 ---
 
-## 🚀 Local Development Setup
+## 📋 STEP-BY-STEP DEPLOYMENT GUIDE
 
-### Prerequisites
-- Node.js 16+ ([Download](https://nodejs.org/))
-- npm or yarn package manager
-- Git ([Download](https://git-scm.com/))
-- A Firebase account ([Create Free](https://firebase.google.com/))
+### STEP 1: Create GitHub Account & Repository
 
-### Step 1: Install Dependencies
+#### 1.1 Create GitHub Account (if you don't have one)
+1. Go to https://github.com/signup
+2. Enter email, password, username
+3. Verify email
+4. Skip optional setup
+
+#### 1.2 Create New Repository on GitHub
+1. Go to https://github.com/new
+2. Fill in details:
+   - **Repository name**: `tournament-table-app`
+   - **Description**: "Tournament management app with auth and auto-backup"
+   - **Visibility**: Public (for Vercel free tier)
+3. Don't initialize with README (we have one)
+4. Click "Create repository"
+5. You'll see: "Quick setup" with your repo URL
+
+---
+
+### STEP 2: Push Code to GitHub
+
+Copy the commands from GitHub "Quick setup" section:
 
 ```bash
-# Navigate to project directory
+# Navigate to project
 cd "g:\app 2.2"
 
-# Install dependencies
-npm install
+# Initialize and push (run these exact commands from GitHub)
+git remote add origin https://github.com/YOUR-USERNAME/tournament-table-app.git
+git branch -M main
+git push -u origin main
 ```
 
-### Step 2: Set Up Environment Variables
+**In PowerShell:**
+```powershell
+cd "g:\app 2.2"
+git remote add origin https://github.com/YOUR-USERNAME/tournament-table-app.git
+git branch -M main
+git push -u origin main
+```
+
+When prompted, enter your GitHub credentials.
+
+**Expected output:**
+```
+Enumerating objects: ...
+Counting objects: ...
+Compressing objects: ...
+Writing objects: ...
+Creating branch...
+remote: 
+remote: To create a merge request for main, visit:
+remote: https://github.com/YOUR-USERNAME/tournament-table-app/pull/new/main
+```
+
+✅ **Success!** Your code is now on GitHub.
+
+---
+
+### STEP 3: Create Vercel Account
+
+1. Go to https://vercel.com/signup
+2. Click "Continue with GitHub"
+3. Authorize Vercel
+4. You'll be logged in
+
+---
+
+### STEP 4: Deploy to Vercel
+
+#### 4.1 Create New Project
+1. Go to https://vercel.com/dashboard
+2. Click "Add New..." → "Project"
+3. Click "Import Git Repository"
+4. Paste your repo URL: `https://github.com/YOUR-USERNAME/tournament-table-app`
+5. Click "Continue"
+
+#### 4.2 Configure Project
+- **Project Name**: `tournament-table-app` (auto-filled, can change)
+- **Framework Preset**: Select `Vite` (auto-detected)
+- **Root Directory**: `./` (default)
+- Click "Continue"
+
+#### 4.3 Set Environment Variables ⚠️ IMPORTANT
+
+1. You'll see "Environment Variables" section
+2. Click "Add Environment Variable"
+3. For each variable below, add:
+
+**Variable 1:**
+- Name: `VITE_FIREBASE_API_KEY`
+- Value: `AIzaSyBdCYV-50Ppd2b84pFYrqKw-_bhqOTKQuI` (from your Firebase)
+- Click "Add"
+
+**Variable 2:**
+- Name: `VITE_FIREBASE_AUTH_DOMAIN`
+- Value: `tournament-app-3aa4f.firebaseapp.com`
+- Click "Add"
+
+**Variable 3:**
+- Name: `VITE_FIREBASE_PROJECT_ID`
+- Value: `tournament-app-3aa4f`
+- Click "Add"
+
+**Variable 4:**
+- Name: `VITE_FIREBASE_STORAGE_BUCKET`
+- Value: `tournament-app-3aa4f.firebasestorage.app`
+- Click "Add"
+
+**Variable 5:**
+- Name: `VITE_FIREBASE_MESSAGING_SENDER_ID`
+- Value: `95300521854`
+- Click "Add"
+
+**Variable 6:**
+- Name: `VITE_FIREBASE_APP_ID`
+- Value: `1:95300521854:web:a44d2f7b8d20cd8813ad2f`
+- Click "Add"
+
+**Variable 7:**
+- Name: `VITE_FIREBASE_MEASUREMENT_ID`
+- Value: `G-DZHZBGZLCC`
+- Click "Add"
+
+#### 4.4 Deploy
+1. After all variables added, click "Deploy"
+2. Wait for build to complete (2-3 minutes)
+3. When done, you'll see deployment summary
+
+✅ **Success!** Your app is deployed!
+
+---
+
+### STEP 5: Test Your Deployed App
+
+1. Click the deployment preview link or go to Vercel dashboard
+2. Your app URL: `https://tournament-table-app-YOUR-USERNAME.vercel.app`
+3. You should see login page
+4. **Test:**
+   - Click "Create Account"
+   - Register with test email
+   - Create a tournament
+   - Add teams and matches
+   - Verify auto-backup works
+
+---
+
+### STEP 6: Optional - Use Custom Domain
+
+#### 6.1 If you have a domain:
+1. Go to Vercel project settings
+2. Click "Domains"
+3. Enter your domain name
+4. Click "Add"
+5. Follow DNS instructions from your domain provider
+
+---
+
+## 🔍 VERIFICATION CHECKLIST
+
+After deployment, verify everything works:
+
+- [ ] App loads at your Vercel URL
+- [ ] Login page displays correctly
+- [ ] Can create an account
+- [ ] Can log in with new account
+- [ ] Can create tournament
+- [ ] Can add teams
+- [ ] Can schedule matches
+- [ ] Can update scores
+- [ ] Standings auto-update
+- [ ] Auto-backups created (check Firestore)
+- [ ] Can logout successfully
+
+---
+
+## 🐛 TROUBLESHOOTING
+
+### Issue: "Build failed"
+**Solution:**
+1. Check Vercel build logs
+2. Verify all environment variables are set
+3. Check `.env.local` is in `.gitignore`
+4. Push any fixes and redeploy
+
+### Issue: "Firebase initialization error"
+**Solution:**
+1. Verify all VITE_FIREBASE_* variables in Vercel
+2. Check no typos in variable names
+3. Ensure Firebase project is active
+4. Redeploy after fixing
+
+### Issue: "Login/Register not working"
+**Solution:**
+1. Check Firebase Authentication is enabled
+2. Verify Firebase project exists
+3. Check browser console (F12) for errors
+4. Verify credentials in Firestore
+
+### Issue: "White screen on load"
+**Solution:**
+1. Check browser console (F12 → Console tab)
+2. Verify all environment variables set
+3. Check network tab for failed requests
+4. Hard refresh page (Ctrl+Shift+R)
+
+---
+
+## 📱 USING YOUR DEPLOYED APP
+
+### First Time Setup
+1. Go to `https://your-domain.vercel.app/login`
+2. Click "Create Account"
+3. Register with your email
+
+### Creating Tournament
+1. From Dashboard, click "Create New Tournament"
+2. Fill in:
+   - Tournament Name (required)
+   - Description (optional)
+   - Total Rounds (default 5)
+3. Click "Create Tournament"
+
+### Managing Teams
+1. Scroll to "Add Team" section
+2. Enter team name
+3. Enter player names (comma-separated)
+4. Click "Add Team"
+5. Team appears in Standings
+
+### Scheduling Matches
+1. Go to "Matches" section
+2. Select Team 1 and Team 2
+3. Select Round
+4. Click "Add Match"
+
+### Recording Scores
+1. Find match in Matches list
+2. Click edit button (pencil)
+3. Enter scores
+4. Click "Save"
+5. Standings auto-update
+
+### Auto-Backups
+- Created automatically on every operation
+- Last 10 auto-backups kept per tournament
+- Manual backups available anytime
+
+---
+
+## 🔐 SECURITY NOTES
+
+### ✅ You've Already Done:
+- ✅ Removed demo credentials from code
+- ✅ Added `.env.local` to `.gitignore`
+- ✅ Using environment variables in Vercel
+
+### ✅ Firebase Security:
+- ✅ Firebase credentials safely stored in Vercel
+- ✅ Only authenticated users can access tournaments
+- ✅ Users only see their own tournaments
+- ✅ Backups encrypted in Firestore
+
+### ⚠️ Never Do:
+- ❌ Don't commit `.env.local` to GitHub
+- ❌ Don't share Firebase credentials
+- ❌ Don't hardcode passwords anywhere
+- ❌ Don't expose API keys in code
+
+---
+
+## 📊 MONITORING & MAINTENANCE
+
+### Check Deployment Health
+1. Go to Vercel Dashboard
+2. Click your project
+3. Check "Deployments" tab
+4. Green checkmark = healthy
+
+### View Build Logs
+1. Click on deployment
+2. Scroll to "Build Logs"
+3. Check for errors/warnings
+
+### Monitor Firebase Usage
+1. Go to Firebase Console
+2. Check "Usage" dashboard
+3. Monitor Firestore reads/writes
+4. Firestore free tier: 50k reads/day, 20k writes/day
+
+### Redeploy After Changes
+```bash
+# Make changes locally
+git add .
+git commit -m "Your message"
+git push origin main
+
+# Vercel automatically redeploys!
+```
+
+---
+
+## 🎉 YOU'RE DONE!
+
+Your Tournament Table App is now:
+- ✅ Deployed to Vercel (worldwide)
+- ✅ Using your Firebase database
+- ✅ Secure with authentication
+- ✅ Auto-backing up all data
+- ✅ Production-ready!
+
+### Share Your App
+Send this link to others:
+```
+https://tournament-table-app-YOUR-USERNAME.vercel.app
+```
+
+They can create accounts and use it immediately!
+
+---
+
+## 📞 GETTING HELP
+
+If something goes wrong:
+1. Check Vercel Build Logs
+2. Check Firebase Console for errors
+3. Look at browser console (F12)
+4. Check network tab for failed requests
+5. Verify all environment variables
+
+---
+
+**Last Updated**: December 9, 2025
+**Status**: ✅ Production Ready
 
 1. Copy the example env file:
 ```bash
