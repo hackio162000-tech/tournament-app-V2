@@ -111,13 +111,6 @@ export const LoginPage: React.FC = () => {
                 Create Account
               </Button>
             </div>
-
-            {/* Demo credentials */}
-            <div className="mt-6 p-3 bg-gray-700/30 rounded-lg">
-              <p className="text-xs text-gray-400 font-semibold mb-2">Demo Credentials:</p>
-              <p className="text-xs text-gray-500">Email: demo@example.com</p>
-              <p className="text-xs text-gray-500">Password: Demo123!</p>
-            </div>
           </div>
         </div>
       </div>
